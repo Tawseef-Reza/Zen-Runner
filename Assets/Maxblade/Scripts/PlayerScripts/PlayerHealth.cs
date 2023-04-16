@@ -9,6 +9,8 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     private bool isDead = false;
 
+    public HealthBar healthBar;
+
     private Animator animator;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,8 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+        healthBar.SetHealth(health);
+
         if (health <= 0 && !isDead)
         {
             isDead = true;
