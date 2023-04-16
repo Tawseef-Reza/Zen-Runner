@@ -15,13 +15,19 @@ public class EnemyFollowPlayer : MonoBehaviour
     private Animator animator;
 
     public float attackRange;
+    public float shootingRange;
+
+    public GameObject bullet;
+    public GameObject bulletParent;
+    public float fireRate = 5f;
+    private float nextFireTime;
 
     private SpriteRenderer spriteRenderer;
 
     private bool flying = false;
-    private bool bitingCD = false;
 
     private bool isBiting = false;
+    private bool isShooting = false;
     // Start is called before the first frame update
 
     void Start()
@@ -58,16 +64,25 @@ public class EnemyFollowPlayer : MonoBehaviour
 
             float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
 
-            if (distanceFromPlayer < attackRange && !isBiting)
+            if (distanceFromPlayer < attackRange && !isBiting && shootingRange == 0)
             {
                 isBiting = true;
                 EnemyBiteSequence();
             }
 
-            if (flying)
+            if (distanceFromPlayer < shootingRange && !isShooting && shootingRange > 0 && nextFireTime < Time.time)
+            {
+                isShooting = true;
+                nextFireTime = Time.time + fireRate;
+                EnemyShootingSequence();
+            }
+
+            if (flying && (distanceFromPlayer >= shootingRange))
             {
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.position.x, player.position.y + 1, transform.position.z), speed * Time.deltaTime);
             }
+
+
         }
         
     }
@@ -83,10 +98,24 @@ public class EnemyFollowPlayer : MonoBehaviour
         
     }
 
+    private void EnemyShootingSequence()
+    {
+        speed = 0;
+        Instantiate(bullet, bulletParent.transform.position, Quaternion.identity);
+        isShooting = false;
+        speed = 2;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        if (shootingRange == 0)
+        {
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        } else
+        {
+            Gizmos.DrawWireSphere(transform.position, shootingRange);
+        }
     }
 
     IEnumerator DelayedBite(float _delay = 0)
