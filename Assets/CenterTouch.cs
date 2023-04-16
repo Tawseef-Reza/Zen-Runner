@@ -51,13 +51,17 @@ public class CenterTouch : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(2);
-        for (int i = breathin.Length - 1; i >= 0; i--)
+        for (int i = breathout.Length - 1; i >= 0; i--)
         {
-            text.text = breathin.Substring(0, i);
+            text.text = breathout.Substring(0, i);
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(3);
         canvas.SetActive(false);
         _heroKnight.enabled = true;
+    }
+    public void Skip()
+    {
+        
     }
 }
