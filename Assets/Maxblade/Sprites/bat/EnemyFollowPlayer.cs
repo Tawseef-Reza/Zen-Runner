@@ -18,7 +18,10 @@ public class EnemyFollowPlayer : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    private Boolean flying = false;
+    private bool flying = false;
+    private bool bitingCD = false;
+
+    private bool isBiting = false;
     // Start is called before the first frame update
 
     void Start()
@@ -38,31 +41,35 @@ public class EnemyFollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Vector3 scale = transform.localScale;
-        transform.localScale = scale;
-
-        if (player.transform.position.x > transform.position.x)
+        if (player != null)
         {
-            scale.x = Math.Abs(scale.x) * -1;
-            spriteRenderer.flipX = true;
-        } else
-        {
-            scale.x = Math.Abs(scale.x);
-            spriteRenderer.flipX = false;
+            Vector3 scale = transform.localScale;
+                    transform.localScale = scale;
+
+            if (player.transform.position.x > transform.position.x)
+            {
+                scale.x = Math.Abs(scale.x) * -1;
+                spriteRenderer.flipX = true;
+            } else
+            {
+                scale.x = Math.Abs(scale.x);
+                spriteRenderer.flipX = false;
+            }
+
+            float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
+
+            if (distanceFromPlayer < attackRange && !isBiting)
+            {
+                isBiting = true;
+                EnemyBiteSequence();
+            }
+
+            if (flying)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.position.x, player.position.y + 1, transform.position.z), speed * Time.deltaTime);
+            }
         }
-
-        float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
-
-        if (distanceFromPlayer < attackRange)
-        {
-            EnemyBiteSequence();
-        }
-
-        if (flying)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.position.x, player.position.y + 1, transform.position.z), speed * Time.deltaTime);
-        }
+        
     }
 
 
@@ -70,14 +77,23 @@ public class EnemyFollowPlayer : MonoBehaviour
     {
         speed = 0;
         animator.SetTrigger("Bite");
+        StartCoroutine(DelayedBite(animator.GetCurrentAnimatorStateInfo(0).length));
         playerHealth.TakeDamage(damage);
         speed = 2;
+        
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    IEnumerator DelayedBite(float _delay = 0)
+    {
+        yield return new WaitForSeconds(_delay);
+        isBiting = false;
+        print("Bite");
     }
 
 }

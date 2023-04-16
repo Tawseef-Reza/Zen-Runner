@@ -15,20 +15,23 @@ public class PlayerHealth : MonoBehaviour
         health = maxHealth;
         animator = GetComponent<Animator>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void TakeDamage(int amount)
     {
         health -= amount;
         if (health <= 0)
         {
             animator.SetTrigger("Death");
-            Destroy(gameObject);
+            StartCoroutine(DelayedDead(animator.GetCurrentAnimatorStateInfo(0).length));
+        } else
+        {
+            animator.SetTrigger("Hurt");
         }
+    }
+
+    IEnumerator DelayedDead(float _delay = 0)
+    {
+        yield return new WaitForSeconds(_delay);
+
+        Destroy(gameObject);
     }
 }
