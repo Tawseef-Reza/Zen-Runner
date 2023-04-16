@@ -5,7 +5,7 @@ public class HeroKnight : MonoBehaviour {
 
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
-    [SerializeField] float      m_rollForce = 8.0f;
+    [SerializeField] float      m_rollForce = 16.0f;
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
@@ -84,7 +84,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Move
-        if (!m_rolling )
+        if (!m_rolling)
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
         //Set AirSpeed in animator
