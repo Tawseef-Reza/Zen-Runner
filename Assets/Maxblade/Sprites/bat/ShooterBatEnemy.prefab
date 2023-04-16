@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8112913661036811716}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8112913661036811715}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.545373, y: 0.26499307, z: -0.015803859}
+  m_LocalPosition: {x: 0.01, y: -0.01, z: -0.015803859}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 8693755976011437370}
   - component: {fileID: 1989203908274623064}
   - component: {fileID: 8112913662360814267}
-  m_Layer: 0
+  - component: {fileID: 1238398269}
+  m_Layer: 6
   m_Name: ShooterBatEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,3 +182,19 @@ MonoBehaviour:
   bullet: {fileID: 4864416765213975100, guid: 77fe6533d1c430747b064a2187f28fba, type: 3}
   bulletParent: {fileID: 8112913661036811715}
   fireRate: 1
+--- !u!70 &1238398269
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693755976011437369}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.014795163, y: 0.051783565}
+  m_Size: {x: 0.8816379, y: 0.45257455}
+  m_Direction: 1

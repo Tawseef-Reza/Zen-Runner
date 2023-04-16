@@ -12,6 +12,11 @@ public class PlayerHealth : MonoBehaviour
     public HealthBar healthBar;
 
     private Animator animator;
+
+    public GameOverScreen gameOverScreen;
+
+    public ScoreManager scoreManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,5 +47,6 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(_delay);
 
         Destroy(gameObject);
+        gameOverScreen.SetUp(scoreManager.score, scoreManager.highscore);
     }
 }

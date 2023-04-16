@@ -28,6 +28,7 @@ public class EnemyFollowPlayer : MonoBehaviour
 
     private bool isBiting = false;
     private bool isShooting = false;
+
     // Start is called before the first frame update
 
     void Start()
@@ -42,6 +43,8 @@ public class EnemyFollowPlayer : MonoBehaviour
         flying = true;
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -106,6 +109,13 @@ public class EnemyFollowPlayer : MonoBehaviour
         speed = 2;
     }
 
+    public void EnemyDeathSequence()
+    {
+        animator.SetTrigger("Death");
+        Destroy(gameObject);
+        ScoreManager.instance.AddPoints(10);
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -123,6 +133,11 @@ public class EnemyFollowPlayer : MonoBehaviour
         yield return new WaitForSeconds(_delay);
         isBiting = false;
         print("Bite");
+    }
+    IEnumerator DelayedDeath(float _delay = 0)
+    {
+        yield return new WaitForSeconds(_delay);
+        Destroy(gameObject);
     }
 
 }
